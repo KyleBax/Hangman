@@ -34,13 +34,22 @@ namespace Hangman
             while (alive == true)
             {
                 string guess = Console.ReadLine().ToLower();
-                if (word.Contains(guess)){
+
+                if (word.Contains(guess))
+                {
                     Console.WriteLine("Well done");
                 }
+
+                if (word.Contains(guess) == false)
+                {
+                    Console.WriteLine("This word does not contain " + guess);
+                }
+
                 if (guess == word)
                 {
                     Console.WriteLine("Congrats");
                 }
+
             }
 
 
