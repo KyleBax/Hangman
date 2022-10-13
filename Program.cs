@@ -24,35 +24,55 @@ namespace Hangman
             wordList.Add("take");
             wordList.Add("cycle");
 
+
+            List<string> guesses = new List<string>();
+
             bool alive = true;
 
             Random random = new Random();
             int index = random.Next(wordList.Count);
             string word = wordList[index];
+
+            //to be removed after everything else is working
             Console.WriteLine(word);
+
+            //may not be needed, added as I was thinking of how to display the word length
+            int length = word.Length;
+            Console.WriteLine(length);
 
             while (alive == true)
             {
-                string guess = Console.ReadLine().ToLower();
 
-                if (word.Contains(guess))
+                string input = Console.ReadLine().ToLower();
+
+                guesses.Add(input);
+                foreach (string guess in guesses)
+                {
+                    Console.Write(guess);
+
+                }
+                Console.WriteLine(" ");
+
+                if (word.Contains(input))
                 {
                     Console.WriteLine("Well done");
                 }
 
-                if (word.Contains(guess) == false)
+                if (word.Contains(input) == false)
                 {
-                    Console.WriteLine("This word does not contain " + guess);
+                    Console.WriteLine("This word does not contain " + input);
                 }
 
-                if (guess == word)
+                if (input == word)
                 {
                     Console.WriteLine("Congrats");
+                    alive = false;
                 }
 
             }
 
-
+            //TODO
+            // make the length of the word displlayed before each guess
 
 
 
