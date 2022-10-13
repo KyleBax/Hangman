@@ -24,55 +24,76 @@ namespace Hangman
             wordList.Add("take");
             wordList.Add("cycle");
 
+            string keepPlaying = "y";
 
-            List<string> guesses = new List<string>();
-
-            bool alive = true;
-
-            Random random = new Random();
-            int index = random.Next(wordList.Count);
-            string word = wordList[index];
-
-            //to be removed after everything else is working
-            Console.WriteLine(word);
-
-            //may not be needed, added as I was thinking of how to display the word length
-            int length = word.Length;
-            Console.WriteLine(length);
-
-            while (alive == true)
+            while (keepPlaying == "y")
             {
+                Console.Clear();
 
-                string input = Console.ReadLine().ToLower();
+                List<string> guesses = new List<string>();
 
-                guesses.Add(input);
-                foreach (string guess in guesses)
+                bool alive = true;
+
+                Random random = new Random();
+                int index = random.Next(wordList.Count);
+                string word = wordList[index];
+
+                //to be removed after everything else is working
+                Console.WriteLine(word);
+
+                //may not be needed, added as I was thinking of how to display the word length
+                int length = word.Length;
+                Console.WriteLine(length);
+
+
+
+
+                while (alive == true)
                 {
-                    Console.Write(guess);
+                    string input = Console.ReadLine().ToLower();
+
+
+
+
+                    if (word.Contains(input))
+                    {
+                        Console.WriteLine("Well done, this word contains " + input);
+                    }
+
+                    if (word.Contains(input) == false)
+                    {
+                        Console.WriteLine("This word does not contain " + input);
+                        guesses.Add(input);
+
+                    }
+
+                    if (input == word)
+                    {
+                        Console.WriteLine("Congrats");
+                        alive = false;
+                    }
+
+                    Console.WriteLine("Your guesses so far");
+                    foreach (string guess in guesses)
+                    {
+                        Console.Write(guess + " ");
+
+                    }
+                    Console.WriteLine(" ");
+
+                    if (guesses.Count == 10)
+                    {
+                        Console.WriteLine("You have been hung!!!");
+                        break;
+                    }
 
                 }
-                Console.WriteLine(" ");
 
-                if (word.Contains(input))
-                {
-                    Console.WriteLine("Well done");
-                }
-
-                if (word.Contains(input) == false)
-                {
-                    Console.WriteLine("This word does not contain " + input);
-                }
-
-                if (input == word)
-                {
-                    Console.WriteLine("Congrats");
-                    alive = false;
-                }
-
+                Console.WriteLine("Would you like to play again? Y/N");
+                keepPlaying = Console.ReadLine().ToLower();
             }
 
-            //TODO
-            // make the length of the word displlayed before each guess
+
 
 
 
