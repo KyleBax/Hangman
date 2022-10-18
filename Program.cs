@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Hangman
 {
@@ -30,9 +29,11 @@ namespace Hangman
             {
                 Console.Clear();
 
-                List<string> guesses = new List<string>();
+                List<string> incorrectGuesses = new List<string>();
 
-                bool alive = true;
+                List<string> correctGuesses = new List<string>();
+
+                bool inSession = true;
 
                 Random random = new Random();
                 int index = random.Next(wordList.Count);
@@ -48,43 +49,60 @@ namespace Hangman
 
 
 
-                while (alive == true)
+                while (inSession)
                 {
+
+                    for (int i = 1; i <= word.Length; i++)
+                    {
+                        char character = word[i - 1];
+                        string letter = Char.ToString(character);
+                        if (correctGuesses.Contains(letter))
+                        {
+                            Console.Write(letter + " ");
+                        }
+                        else
+                        {
+                            Console.Write("_ ");
+                        }
+                    }
+                    Console.WriteLine(" ");
+
                     string input = Console.ReadLine().ToLower();
-
-
-
 
                     if (word.Contains(input))
                     {
                         Console.WriteLine("Well done, this word contains " + input);
+                        correctGuesses.Add(input);
                     }
 
-                    if (word.Contains(input) == false)
+                    else
                     {
                         Console.WriteLine("This word does not contain " + input);
-                        guesses.Add(input);
+                        incorrectGuesses.Add(input);
 
                     }
 
-                    if (input == word)
+                    //TODO make so wins when all letters in word are guessed
+                    if (correctGuesses.Count == word.Length)
                     {
                         Console.WriteLine("Congrats");
-                        alive = false;
+                        inSession = false;
                     }
 
                     Console.WriteLine("Your guesses so far");
-                    foreach (string guess in guesses)
+                    foreach (string guess in incorrectGuesses)
                     {
                         Console.Write(guess + " ");
 
                     }
                     Console.WriteLine(" ");
 
-                    if (guesses.Count == 10)
+                    // want to increase dificulty by number of play throughs by reducing number of guesses available after each succesful game reseting on a failed game
+                    if (incorrectGuesses.Count >= 10)
                     {
                         Console.WriteLine("You have been hung!!!");
-                        break;
+                        Console.WriteLine("The word was " + word);
+                        inSession = false;
                     }
 
                 }
@@ -99,5 +117,7 @@ namespace Hangman
 
 
         }
+
+
     }
 }
