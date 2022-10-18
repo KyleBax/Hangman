@@ -43,8 +43,7 @@ namespace Hangman
                     Console.WriteLine(" ");
                     for (int i = 1; i <= word.Length; i++)
                     {
-                        char character = word[i - 1];
-                        string letter = Char.ToString(character);
+                        string letter = word[i - 1].ToString();
                         if (correctGuesses.Contains(letter))
                         {
                             Console.Write(letter + " ");
@@ -93,7 +92,6 @@ namespace Hangman
             Console.WriteLine(first);
             Console.WriteLine("The word was " + second);
         }
-
         /// <summary>
         /// Clears the previous round and welcomes you to the game, tells you which round you're on and how many mistakes you can make
         /// </summary>
