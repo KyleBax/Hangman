@@ -6,7 +6,7 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-
+            
 
             List<string> wordList = new List<string>();
             wordList.Add("analysis");
@@ -26,12 +26,7 @@ namespace Hangman
 
             while (keepPlaying == "y")
             {
-                Console.Clear();
-
-                Console.WriteLine("Welcome to the gallows!");
-                Console.WriteLine("It's up to you to save these poor souls!");
-                Console.WriteLine("Can you do it before they all die?");
-                Console.WriteLine("It's time to Hangman!!!!!");
+                NewRound();
 
                 List<string> incorrectGuesses = new List<string>();
 
@@ -39,7 +34,7 @@ namespace Hangman
 
                 bool inSession = true;
 
-                Random random = new Random();
+                Random random = new();
                 int index = random.Next(wordList.Count);
                 string word = wordList[index];
 
@@ -58,7 +53,7 @@ namespace Hangman
                         Console.Write(guess + " ");
 
                     }
-                    Console.WriteLine(" ");
+                    Space();
 
 
                     int success = word.Length;
@@ -78,7 +73,7 @@ namespace Hangman
                             Console.Write("_ ");
                         }
                     }
-                    Console.WriteLine(" ");
+                    Space();
 
                     string input = Console.ReadLine().ToLower();
 
@@ -97,32 +92,52 @@ namespace Hangman
 
                     if (success == 1)
                     {
-                        Console.WriteLine("Congrats, you win");
-                        Console.WriteLine("The word was " + word);
+                        Finish("Congrats, you win!!", word);
                         games++;
                         inSession = false;
                     }
 
-
-                    // want to increase dificulty by number of play throughs by reducing number of guesses available after each succesful game reseting on a failed game
-                    if (incorrectGuesses.Count >= 10 - games)
+                    if (incorrectGuesses.Count >= 11 - games)
                     {
-                        Console.WriteLine("You have been hung!!!");
-                        Console.WriteLine("The word was " + word);
-                        inSession = false;
+                        Finish("You have been hung!!", word);
+                        games = 1;
                     }
 
                 }
 
-                Console.WriteLine("Would you like to play again? Y/N");
+                Console.WriteLine("Would you like to keep playing? Y/N");
                 keepPlaying = Console.ReadLine().ToLower();
             }
+        }
+        /// <summary>
+        /// Writes a line telling you if you win or lose
+        /// </summary>
+        /// <param name="first">first line telling you if you win or lose</param>
+        /// <param name="second">The word the was being guessed</param>
+        static void Finish(string first, string second)
+        {
+            Console.WriteLine(first);
+            Console.WriteLine("The word was " + second);
+        }
 
+        /// <summary>
+        /// Clears the precious round and welcomes you to the game
+        /// </summary>
+        static void NewRound()
+        {
+            Console.Clear();
 
-
-
-
-
+            Console.WriteLine("Welcome to the gallows!");
+            Console.WriteLine("It's up to you to save these poor souls!");
+            Console.WriteLine("Can you do it before they all die?");
+            Console.WriteLine("It's time to Hangman!!!!!");
+        }
+        /// <summary>
+        /// used whenever a space is needed or a new line is needed in the text printed to the console
+        /// </summary>
+        static void Space()
+        {
+            Console.WriteLine(" ");
         }
 
 
