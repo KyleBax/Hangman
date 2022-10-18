@@ -19,16 +19,15 @@ namespace Hangman
             wordList.Add("cycle");
 
             int games = 1;
-            string keepPlaying = "y";
+            bool keepPlaying = true;
 
-            while (keepPlaying == "y")
+            while (keepPlaying)
             {
                 NewRound(games);
 
                 Random random = new();
                 int index = random.Next(wordList.Count);
-                string word = wordList[index];
-                int success = word.Length;
+                string word = wordList[index];      
                 List<string> incorrectGuesses = new List<string>();
                 List<string> correctGuesses = new List<string>();
                 bool inSession = true;
@@ -41,6 +40,7 @@ namespace Hangman
                         Console.Write(guess + " ");
                     }
                     Console.WriteLine(" ");
+                    int success = word.Length;
                     for (int i = 1; i <= word.Length; i++)
                     {
                         string letter = word[i - 1].ToString();
@@ -79,7 +79,7 @@ namespace Hangman
                     }
                 }
                 Console.WriteLine("Would you like to keep playing? Y/N");
-                keepPlaying = Console.ReadLine().ToLower();
+                keepPlaying = (Console.ReadLine().ToLower() == "y");
             }
         }
         /// <summary>
