@@ -34,7 +34,7 @@ namespace Hangman
 
                 while (inSession)
                 {
-                    Console.WriteLine("Your guesses so far");
+                    Console.WriteLine("Your guesses so far:");
                     foreach (string guess in incorrectGuesses)
                     {
                         Console.Write(guess + " ");
@@ -76,6 +76,7 @@ namespace Hangman
                     {
                         Finish("You have been hung!!", word);
                         games = 1;
+                        inSession = false;
                     }
                 }
                 Console.WriteLine("Would you like to keep playing? Y/N");
