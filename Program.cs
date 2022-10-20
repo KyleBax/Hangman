@@ -67,7 +67,7 @@ namespace Hangman
                         round++;
                         inSession = false;
                     }
-                    if (incorrectGuesses.Count >= 11 - round)
+                    if (incorrectGuesses.Count >= tries - round)
                     {
                         Finish("You have been hung!!", word);
                         round = 1;
