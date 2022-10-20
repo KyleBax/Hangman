@@ -18,8 +18,10 @@ namespace Hangman
             wordList.Add("take");
             wordList.Add("cycle");
 
-            int games = 1;
+            int tries = 11;
+            int round = 1;
             bool keepPlaying = true;
+
 
             while (keepPlaying)
             {
@@ -29,13 +31,13 @@ namespace Hangman
                 List<string> incorrectGuesses = new List<string>();
                 List<string> correctGuesses = new List<string>();
                 bool inSession = true;
-                int tries = 11 - games;
+                int wrongAttempts = tries - round;
 
-                NewRound(games, tries);
+                NewRound(round, wrongAttempts);
 
                 while (inSession)
                 {
-                    Console.WriteLine("Attempts left " + (tries - incorrectGuesses.Count));
+                    Console.WriteLine("Attempts left " + (wrongAttempts - incorrectGuesses.Count));
                     Console.WriteLine("Your guesses so far:");
                     foreach (string guess in incorrectGuesses)
                     {
@@ -43,14 +45,14 @@ namespace Hangman
                     }
                     Console.WriteLine(" ");
 
-                    int success = word.Length;
+                    int lettersRemaining = word.Length;
                     for (int i = 1; i <= word.Length; i++)
                     {
                         string letter = word[i - 1].ToString();
                         if (correctGuesses.Contains(letter))
                         {
                             Console.Write(letter + " ");
-                            success--;
+                            lettersRemaining--;
                         }
                         else
                         {
@@ -58,6 +60,19 @@ namespace Hangman
                         }
                     }
                     Console.WriteLine(" ");
+
+                    if (lettersRemaining == 0)
+                    {
+                        Finish("Congrats, you win!!", word);
+                        round++;
+                        inSession = false;
+                    }
+                    if (incorrectGuesses.Count >= 11 - round)
+                    {
+                        Finish("You have been hung!!", word);
+                        round = 1;
+                        inSession = false;
+                    }
 
                     string input = Console.ReadLine().ToLower();
                     if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
@@ -77,20 +92,6 @@ namespace Hangman
                             incorrectGuesses.Add(input);
                         }
                     }
-
-
-                    if (success == 1)
-                    {
-                        Finish("Congrats, you win!!", word);
-                        games++;
-                        inSession = false;
-                    }
-                    if (incorrectGuesses.Count >= 11 - games)
-                    {
-                        Finish("You have been hung!!", word);
-                        games = 1;
-                        inSession = false;
-                    }
                 }
                 Console.WriteLine("Would you like to keep playing? Y/N");
                 keepPlaying = (Console.ReadLine().ToLower() == "y");
@@ -99,12 +100,12 @@ namespace Hangman
         /// <summary>
         /// Writes a line telling you if you win or lose
         /// </summary>
-        /// <param name="first">first line telling you if you win or lose</param>
-        /// <param name="second">The word the was being guessed</param>
-        static void Finish(string first, string second)
+        /// <param name="winOrLose">first line telling you if you win or lose</param>
+        /// <param name="word">The word the was being guessed</param>
+        static void Finish(string winOrLose, string word)
         {
-            Console.WriteLine(first);
-            Console.WriteLine("The word was " + second);
+            Console.WriteLine(winOrLose);
+            Console.WriteLine("The word was " + word);
         }
         /// <summary>
         /// Clears the previous round and welcomes you to the game, tells you which round you're on and how many mistakes you can make
