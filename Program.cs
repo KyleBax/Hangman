@@ -23,23 +23,26 @@ namespace Hangman
 
             while (keepPlaying)
             {
-                NewRound(games);
-
                 Random random = new();
                 int index = random.Next(wordList.Count);
-                string word = wordList[index];      
+                string word = wordList[index];
                 List<string> incorrectGuesses = new List<string>();
                 List<string> correctGuesses = new List<string>();
                 bool inSession = true;
+                int tries = 11 - games;
+
+                NewRound(games, tries);
 
                 while (inSession)
                 {
+                    Console.WriteLine("Attempts left " + (tries - incorrectGuesses.Count));
                     Console.WriteLine("Your guesses so far:");
                     foreach (string guess in incorrectGuesses)
                     {
                         Console.Write(guess + " ");
                     }
                     Console.WriteLine(" ");
+
                     int success = word.Length;
                     for (int i = 1; i <= word.Length; i++)
                     {
@@ -55,17 +58,27 @@ namespace Hangman
                         }
                     }
                     Console.WriteLine(" ");
+
                     string input = Console.ReadLine().ToLower();
-                    if (word.Contains(input))
+                    if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
                     {
-                        Console.WriteLine("Well done, this word contains " + input);
-                        correctGuesses.Add(input);
+                        Console.WriteLine("You have already guessed " + input + ", try a different letter.");
                     }
                     else
                     {
-                        Console.WriteLine("This word does not contain " + input);
-                        incorrectGuesses.Add(input);
+                        if (word.Contains(input))
+                        {
+                            Console.WriteLine("Well done, this word contains " + input);
+                            correctGuesses.Add(input);
+                        }
+                        else
+                        {
+                            Console.WriteLine("This word does not contain " + input);
+                            incorrectGuesses.Add(input);
+                        }
                     }
+
+
                     if (success == 1)
                     {
                         Finish("Congrats, you win!!", word);
@@ -97,7 +110,7 @@ namespace Hangman
         /// Clears the previous round and welcomes you to the game, tells you which round you're on and how many mistakes you can make
         /// </summary>
         /// <param name="round">int to tell you the round and how many mistakes you can make</param>
-        static void NewRound(int round)
+        static void NewRound(int round, int tries)
         {
             Console.Clear();
             Console.WriteLine("Welcome to the gallows!");
@@ -105,7 +118,7 @@ namespace Hangman
             Console.WriteLine("Can you do it before they all die?");
             Console.WriteLine("It's time to Hangman!!!!!");
             Console.WriteLine("Round " + round);
-            Console.WriteLine("You have " + (11 - round) + " wrong guesses before they hang");
+            Console.WriteLine("You have " + (tries) + " wrong guesses before they hang");
         }
     }
 }
