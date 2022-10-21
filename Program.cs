@@ -76,22 +76,29 @@ namespace Hangman
                     }
 
                     string input = Console.ReadLine().Substring(0, 1).ToLower();
-                    if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
+                    if(Char.IsLetter(input, 0))
                     {
-                        Console.WriteLine("You have already guessed " + input + ", try a different letter.");
-                    }
-                    else
-                    {
-                        if (word.Contains(input))
+                        if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
                         {
-                            Console.WriteLine("Well done, this word contains " + input);
-                            correctGuesses.Add(input);
+                            Console.WriteLine("You have already guessed " + input + ", try a different letter.");
                         }
                         else
                         {
-                            Console.WriteLine("This word does not contain " + input);
-                            incorrectGuesses.Add(input);
+                            if (word.Contains(input))
+                            {
+                                Console.WriteLine("Well done, this word contains " + input);
+                                correctGuesses.Add(input);
+                            }
+                            else
+                            {
+                                Console.WriteLine("This word does not contain " + input);
+                                incorrectGuesses.Add(input);
+                            }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a letter next time.");
                     }
                 }
                 Console.WriteLine("Would you like to keep playing? Y/N");
