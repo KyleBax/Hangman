@@ -19,10 +19,8 @@ namespace Hangman
             wordList.Add("take");
             wordList.Add("cycle");
 
-
             int round = 1;
             bool keepPlaying = true;
-
 
             while (keepPlaying)
             {
@@ -75,9 +73,9 @@ namespace Hangman
                         inSession = false;
                     }
 
-                    string input = Console.ReadLine();
                     if (inSession)
                     {
+                        string input = Console.ReadLine();
                         if (String.IsNullOrEmpty(input))
                         {
                             Console.WriteLine("Can not be blank");
