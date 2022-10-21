@@ -4,6 +4,7 @@ namespace Hangman
 {
     internal class Program
     {
+        static readonly int tries = 11;
         static void Main(string[] args)
         {
             List<string> wordList = new List<string>();
@@ -18,7 +19,7 @@ namespace Hangman
             wordList.Add("take");
             wordList.Add("cycle");
 
-            int tries = 11;
+
             int round = 1;
             bool keepPlaying = true;
 
@@ -74,7 +75,7 @@ namespace Hangman
                         inSession = false;
                     }
 
-                    string input = Console.ReadLine().ToLower();
+                    string input = Console.ReadLine().Substring(0, 1).ToLower();
                     if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
                     {
                         Console.WriteLine("You have already guessed " + input + ", try a different letter.");
@@ -111,7 +112,7 @@ namespace Hangman
         /// Clears the previous round and welcomes you to the game, tells you which round you're on and how many mistakes you can make
         /// </summary>
         /// <param name="round">int to tell you the round and how many mistakes you can make</param>
-        static void NewRound(int round, int tries)
+        static void NewRound(int round, int wrongAttempts)
         {
             Console.Clear();
             Console.WriteLine("Welcome to the gallows!");
@@ -119,7 +120,7 @@ namespace Hangman
             Console.WriteLine("Can you do it before they all die?");
             Console.WriteLine("It's time to Hangman!!!!!");
             Console.WriteLine("Round " + round);
-            Console.WriteLine("You have " + (tries) + " wrong guesses before they hang");
+            Console.WriteLine("You have " + (wrongAttempts) + " wrong guesses before they hang");
         }
     }
 }
