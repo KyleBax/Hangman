@@ -75,30 +75,41 @@ namespace Hangman
                         inSession = false;
                     }
 
-                    string input = Console.ReadLine().Substring(0, 1).ToLower();
-                    if(Char.IsLetter(input, 0))
+                    string input = Console.ReadLine();
+                    if (inSession)
                     {
-                        if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
+                        if (String.IsNullOrEmpty(input))
                         {
-                            Console.WriteLine("You have already guessed " + input + ", try a different letter.");
+                            Console.WriteLine("Can not be blank");
                         }
                         else
                         {
-                            if (word.Contains(input))
+                            input = input.Substring(0, 1).ToLower();
+                            if (Char.IsLetter(input, 0))
                             {
-                                Console.WriteLine("Well done, this word contains " + input);
-                                correctGuesses.Add(input);
+                                if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
+                                {
+                                    Console.WriteLine("You have already guessed " + input + ", try a different letter.");
+                                }
+                                else
+                                {
+                                    if (word.Contains(input))
+                                    {
+                                        Console.WriteLine("Well done, this word contains " + input);
+                                        correctGuesses.Add(input);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("This word does not contain " + input);
+                                        incorrectGuesses.Add(input);
+                                    }
+                                }
                             }
                             else
                             {
-                                Console.WriteLine("This word does not contain " + input);
-                                incorrectGuesses.Add(input);
+                                Console.WriteLine("Please enter a letter next time.");
                             }
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a letter next time.");
                     }
                 }
                 Console.WriteLine("Would you like to keep playing? Y/N");
@@ -118,7 +129,8 @@ namespace Hangman
         /// <summary>
         /// Clears the previous round and welcomes you to the game, tells you which round you're on and how many mistakes you can make
         /// </summary>
-        /// <param name="round">int to tell you the round and how many mistakes you can make</param>
+        /// <param name="round">which round of the game you are on</param>
+        /// <param name="wrongAttempts">how many incorrect guesses you have</param>
         static void NewRound(int round, int wrongAttempts)
         {
             Console.Clear();
