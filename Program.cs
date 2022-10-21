@@ -4,7 +4,7 @@ namespace Hangman
 {
     internal class Program
     {
-        static readonly int tries = 11;
+        static readonly int TRIES = 11;
         static void Main(string[] args)
         {
             List<string> wordList = new List<string>();
@@ -32,7 +32,7 @@ namespace Hangman
                 List<string> incorrectGuesses = new List<string>();
                 List<string> correctGuesses = new List<string>();
                 bool inSession = true;
-                int wrongAttempts = tries - round;
+                int wrongAttempts = TRIES - round;
 
                 NewRound(round, wrongAttempts);
 
@@ -68,7 +68,7 @@ namespace Hangman
                         round++;
                         inSession = false;
                     }
-                    if (incorrectGuesses.Count >= tries - round)
+                    if (incorrectGuesses.Count >= TRIES - round)
                     {
                         Finish("You have been hung!!", word);
                         round = 1;
