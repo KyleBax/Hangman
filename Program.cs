@@ -18,6 +18,16 @@ namespace Hangman
             wordList.Add("bare");
             wordList.Add("take");
             wordList.Add("cycle");
+            wordList.Add("fail");
+            wordList.Add("spirit");
+            wordList.Add("cover");
+            wordList.Add("volunteer");
+            wordList.Add("position");
+            wordList.Add("omission");
+            wordList.Add("factor");
+            wordList.Add("bronze");
+            wordList.Add("grounds");
+            wordList.Add("harm");
 
             int round = 1;
             bool keepPlaying = true;
@@ -45,9 +55,9 @@ namespace Hangman
                     Console.WriteLine(" ");
 
                     int lettersRemaining = word.Length;
-                    for (int i = 1; i <= word.Length; i++)
+                    for (int i = 0; i < word.Length; i++)
                     {
-                        string letter = word[i - 1].ToString();
+                        string letter = word[i].ToString();
                         if (correctGuesses.Contains(letter))
                         {
                             Console.Write(letter + " ");
