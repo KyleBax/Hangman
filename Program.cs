@@ -74,50 +74,46 @@ namespace Hangman
                     {
                         Finish("Congrats, you win!!", word);
                         round++;
-                        inSession = false;
+                        break;
                     }
                     if (incorrectGuesses.Count >= TRIES - round)
                     {
                         Finish("You have been hung!!", word);
                         round = 1;
-                        inSession = false;
+                        break;
                     }
 
-                    if (inSession)
+                    string input = Console.ReadLine();
+                    if (String.IsNullOrEmpty(input))
                     {
-                        string input = Console.ReadLine();
-                        if (String.IsNullOrEmpty(input))
+                        Console.WriteLine("Can not be blank");
+                        continue;
+                    }
+
+                    input = input.Substring(0, 1).ToLower();
+                    if (Char.IsLetter(input, 0))
+                    {
+                        if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
                         {
-                            Console.WriteLine("Can not be blank");
+                            Console.WriteLine("You have already guessed " + input + ", try a different letter.");
                         }
                         else
                         {
-                            input = input.Substring(0, 1).ToLower();
-                            if (Char.IsLetter(input, 0))
+                            if (word.Contains(input))
                             {
-                                if (correctGuesses.Contains(input) || incorrectGuesses.Contains(input))
-                                {
-                                    Console.WriteLine("You have already guessed " + input + ", try a different letter.");
-                                }
-                                else
-                                {
-                                    if (word.Contains(input))
-                                    {
-                                        Console.WriteLine("Well done, this word contains " + input);
-                                        correctGuesses.Add(input);
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("This word does not contain " + input);
-                                        incorrectGuesses.Add(input);
-                                    }
-                                }
+                                Console.WriteLine("Well done, this word contains " + input);
+                                correctGuesses.Add(input);
                             }
                             else
                             {
-                                Console.WriteLine("Please enter a letter next time.");
+                                Console.WriteLine("This word does not contain " + input);
+                                incorrectGuesses.Add(input);
                             }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a letter next time.");
                     }
                 }
                 Console.WriteLine("Would you like to keep playing? Y/N");
